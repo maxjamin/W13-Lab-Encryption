@@ -5,7 +5,7 @@
 ********************************************************************/
 #ifndef CIPHER01_H
 #define CIPHER01_H
-#include <algorithm>
+
 /********************************************************************
  * CLASS
  *******************************************************************/
@@ -44,15 +44,16 @@ public:
       return str;
    }
 
-
-   std::string keyRandomizeAlgorithm(std::string & streamInput, 
+    int keyRandomizeAlgorithm(int *streamInput, 
                                      std::string password)
    {
+
       for (int h=0; h < 255; h++)
           streamInput[h] = h;
 
       int j =0;
       char tempString;
+
       for (int i=0; i < 255; i++)
       {
         j = (j+ streamInput[i] + password[i % password.size()] 
@@ -63,34 +64,21 @@ public:
 
    }
 
-   char pseudoRandomGeneration(std::string streamInput, 
-                              int & j,
-                              int & i)
-   {
-
-      int sizeOfStream = streamInput.size();
-
-      while(1)
-      {
-        i = (i+1) % 256;
-        j = (j + streamInput[i]) % 256;
-        std::swap(streamInput[i], streamInput[j]);
-
-        int t = (streamInput[i] + streamInput[j]) % 256;
-        return streamInput[t];
-      }
-   }
    /**********************************************************
     * ENCRYPT
     * TODO: ADD description
     **********************************************************/
-   virtual std::string encrypt(const std::string & plainText, 
+   virtual std::string encrypt(const std::string & plainText,
                                const std::string & password)
    {
-      
-      
-      std::string cipherText;
-      // TODO - Add your code here
+      std::string cipherText = plainText;
+      int initalVector[256];
+
+      keyRandomizeAlgorithm(initalVector, password);
+
+      for (int h=0; h < 255; h++)
+          std::cout << initalVector[h] << "-";
+
       return cipherText;
    }
 
@@ -98,7 +86,7 @@ public:
     * DECRYPT
     * TODO: ADD description
     **********************************************************/
-   virtual std::string decrypt(const std::string & cipherText, 
+   virtual std::string decrypt(const std::string & cipherText,
                                const std::string & password)
    {
       std::string plainText = cipherText;
