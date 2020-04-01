@@ -13,9 +13,9 @@ class Cipher01 : public Cipher
 {
 public:
    virtual std::string getPseudoAuth()  { return "Ben Smith"; }
-   virtual std::string getCipherName()  { return "cipher name"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
-   virtual std::string getDecryptAuth() { return "decrypt author"; }
+   virtual std::string getCipherName()  { return "RC4"; }
+   virtual std::string getEncryptAuth() { return "Ben Smith"; }
+   virtual std::string getDecryptAuth() { return "Ben Smith"; }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -36,24 +36,11 @@ public:
 
       // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str =  "Two parts of the algorithm\n",
-              "Key-scheduling algorithm\n",
-                "for i from 0 to 255\n"
-                  "s[i] := 1\n",
-              "endfor\n",
-              "\n",
-              "i, j :=0\n",
-              "while(generatingOutput:\n",
-                "i := (i + 1) mod 256\n",
-                "j := (j + S[i]) mod 256\n",
-                "swap values of S[i] and S[j]\n",
-                "K := S[(S[i] + S[j]) mod 256]\n",
-                "output K\n",
-              "endwhile\n"
+      str =  "Two parts of the algorithm\n \tKey-scheduling algorithm\n\tfor i from 0 to 255\n\t\ts[i] := 1\n\tendfor\n\tPseudo-random generation algorithm\n\ti, j :=0\n\twhile(generatingOutput:\n\t\ti := (i + 1) mod 256\n\t\tj := (j + S[i]) mod 256\n\t\tswap values of S[i] and S[j]\n\t\tK := S[(S[i] + S[j]) mod 256]\n\t\toutput K\n\tendwhile\n"
               ;
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      str += "For decryption, the keystream generation is Xored with the cipherText to get plaintext\n";
 
       return str;
    }
@@ -83,7 +70,7 @@ public:
                               int & i)
    {
 
-      std::cout << "i is " << i << " j is " << j << "\n";
+      //std::cout << "i is " << i << " j is " << j << "\n";
       while(1)
       {
         i = (i+1) % 256;
@@ -120,12 +107,12 @@ public:
         //XOR plaintext and k from keystream
         int output = k^plain_as_int;
 
-        std::cout << "plainText: " << plainText[h] << " - k being " <<
-        k << " Converted to " << output <<"\n";
+        /*std::cout << "plainText: " << plainText[h] << " - k being " <<
+        k << " Converted to " << output <<"\n";*/
 
         //add to cipherText
         cipherText.push_back((char)output);
-        std::cout << "cipherText is " << cipherText[h] << " - ";
+        //std::cout << "cipherText is " << cipherText[h] << " - ";
       }
 
       return cipherText;
@@ -138,9 +125,34 @@ public:
    virtual std::string decrypt(const std::string & cipherText,
                                const std::string & password)
    {
-      std::string plainText = cipherText;
-      // TODO - Add your code here
+      std::string plainText;
+      int initalVector[256];
+
+      keyRandomizeAlgorithm(initalVector, password);
+
+      int i = 0;
+      int j = 0;
+      for(std::string::size_type h=0; h < cipherText.size(); h++)
+      {
+        int k = pseudoRandomGeneration(initalVector, j, i);
+
+        //convert plaintext to int
+        int plain_as_int = (int)cipherText[h];
+        //std::cout << "plain_as_int " << plain_as_int << "\n";
+
+        //XOR plaintext and k from keystream
+        int output = k^plain_as_int;
+
+        /*std::cout << "encyrptText: " << cipherText[h] << " - k being " <<
+        k << " Converted to " << output <<"\n";*/
+
+        //add to cipherText
+        plainText.push_back((char)output);
+        //std::cout << "plaintext is " << plainText[h] << " - ";
+      }
+
       return plainText;
+
    }
 };
 
