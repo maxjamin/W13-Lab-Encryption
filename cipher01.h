@@ -12,7 +12,7 @@
 class Cipher01 : public Cipher
 {
 public:
-   virtual std::string getPseudoAuth()  { return "pseudocode author"; }
+   virtual std::string getPseudoAuth()  { return "Ben Smith"; }
    virtual std::string getCipherName()  { return "cipher name"; }
    virtual std::string getEncryptAuth() { return "encrypt author"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
@@ -44,6 +44,27 @@ public:
       return str;
    }
 
+
+   std::string keyRandomizeAlgorithm(std::string & streamInput, 
+                                     std::string password)
+   {
+      for (int i=0; i < streamInput.size(); i++)
+          streamInput[i] = i;
+
+      int j =0;
+      std::string tempString;
+      for (i=0; i < streamInput.size(); i++)
+      {
+        j = (j+ streamInput[i] + password[i % password.size()] 
+        % streamInput.size());
+
+        tempString = streamInput[i];
+
+      }
+
+   }
+
+
    /**********************************************************
     * ENCRYPT
     * TODO: ADD description
@@ -51,6 +72,7 @@ public:
    virtual std::string encrypt(const std::string & plainText, 
                                const std::string & password)
    {
+      
       std::string cipherText = plainText;
       // TODO - Add your code here
       return cipherText;

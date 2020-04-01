@@ -20,7 +20,7 @@
 #include "cipher04.h"
 #include "cipher05.h"
 #include "cipher06.h"
-#include "cipher07.h"
+//#include "cipher07.h"
 
 using namespace std;
 
@@ -52,7 +52,7 @@ public:
       cipher.push_back(new Cipher04);
       cipher.push_back(new Cipher05);
       cipher.push_back(new Cipher06);
-      cipher.push_back(new Cipher07);
+      //cipher.push_back(new Cipher07);
    }
 
    /************************************************************
