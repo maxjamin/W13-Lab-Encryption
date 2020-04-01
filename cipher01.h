@@ -56,17 +56,18 @@ public:
       for (int i=0; i < 255; i++)
       {
         j = (j+ streamInput[i] + password[i % password.size()] 
-        % 256);
+        ) % 256;
         std::swap(streamInput[i], streamInput[j]);
 
       }
 
    }
 
-   char pseudoRandomGeneration(std::string streamInput)
+   char pseudoRandomGeneration(std::string streamInput, 
+                              int & j,
+                              int & i)
    {
-      int i =0;
-      int j =0;
+
       int sizeOfStream = streamInput.size();
 
       while(1)
