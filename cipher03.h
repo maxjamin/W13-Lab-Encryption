@@ -120,7 +120,8 @@ public:
                                const std::string & password)
    {
       int size = plainText.size();
-      initialize((uint32_t)password.c_str());
+      if (initializationStarted == false)
+         initialize((uint32_t)password.c_str());
 
       uint32_t L = ((uint32_t)plainText.c_str());
       uint32_t R = (L + sizeof(uint32_t) * (size / 2));
