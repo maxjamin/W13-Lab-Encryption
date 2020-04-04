@@ -15,7 +15,7 @@ public:
    virtual std::string getPseudoAuth()  { return "Ben Smith"; }
    virtual std::string getCipherName()  { return "RC4"; }
    virtual std::string getEncryptAuth() { return "Ben Smith"; }
-   virtual std::string getDecryptAuth() { return "Tyler Starr"; }
+   virtual std::string getDecryptAuth() { return "Ben Smith"; }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -131,7 +131,8 @@ public:
 
    /**********************************************************
     * DECRYPT
-    * TODO: ADD description
+    * Basically the encrypt in reverse - obtain a key,
+    * then use the modular arithmetic in reverse
     **********************************************************/
    virtual std::string decrypt(const std::string & cipherText,
                                const std::string & password)
@@ -143,7 +144,7 @@ public:
 
       int i = 0;
       int j = 0;
-      for(int h = 0; h < cipherText.size(); h++)
+      for (int h = 0; h < cipherText.size(); h++)
       {
         int k = pseudoRandomGeneration(initalVector, j, i);
 
