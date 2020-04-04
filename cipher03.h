@@ -8,6 +8,17 @@
 
 #include <sstream> // for converting string to number + vice versa
 
+// This makes to_string work under MinGW, where it otherwise wouldn't
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
 /********************************************************************
  * CLASS
  *******************************************************************/
@@ -113,8 +124,6 @@ public:
    /**********************************************************
     * ENCRYPT
     * Encrypt using XOR and some global arrays (S and P)
-    * derived from password
-    * TODO: implement the initialize() function
     **********************************************************/
    virtual std::string encrypt(const std::string & plainText,
                                const std::string & password)
@@ -134,8 +143,8 @@ public:
       }
 
       swap(L, R);
-      R ^= password[16];
-      L ^= password[17];
+      R ^= P[16];
+      L ^= P[17];
 
       // https://www.cplusplus.com/articles/D9j2Nwbp/
       std::string cipherText = static_cast<std::ostringstream*>( &(std::ostringstream() << (L + R)) )->str();
@@ -321,12 +330,12 @@ private:
          P[i] ^= password; //Password for this code will always be 32 bit and thus used every round
       uint32_t L = 0, R = 0;
       for (int i=0 ; i<18 ; i+=2) {
-         encrypt (std::to_string(L) + std::to_string(R), std::to_string(password));
+         encrypt (patch::to_string((int)L) + patch::to_string((int)R), patch::to_string((int)password));
          P[i] = L; P[i+1] = R;
       }
       for (int i=0 ; i<4 ; ++i)
          for (int j=0 ; j<256; j+=2) {
-            encrypt (std::to_string(L) + std::to_string(R), std::to_string(password));
+            encrypt (patch::to_string((int)L) + patch::to_string((int)R), patch::to_string((int)password));
             S[i][j] = L; S[i][j+1] = R;
          }
 

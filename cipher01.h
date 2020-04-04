@@ -15,7 +15,7 @@ public:
    virtual std::string getPseudoAuth()  { return "Ben Smith"; }
    virtual std::string getCipherName()  { return "RC4"; }
    virtual std::string getEncryptAuth() { return "Ben Smith"; }
-   virtual std::string getDecryptAuth() { return "Ben Smith"; }
+   virtual std::string getDecryptAuth() { return "Tyler Starr"; }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -34,10 +34,21 @@ public:
    {
       std::string str;
 
-      // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str =  "Two parts of the algorithm\n \tKey-scheduling algorithm\n\tfor i from 0 to 255\n\t\ts[i] := 1\n\tendfor\n\tPseudo-random generation algorithm\n\ti, j :=0\n\twhile(generatingOutput:\n\t\ti := (i + 1) mod 256\n\t\tj := (j + S[i]) mod 256\n\t\tswap values of S[i] and S[j]\n\t\tK := S[(S[i] + S[j]) mod 256]\n\t\toutput K\n\tendwhile\n"
-              ;
+      str =  "Two parts of the algorithm\n";
+      str += "\tKey-scheduling algorithm\n";
+      str += "\tfor i from 0 to 255\n";
+      str += "\t\ts[i] := 1\n";
+      str += "\tendfor\n";
+      str += "\tPseudo-random generation algorithm\n";
+      str += "\ti, j :=0\n";
+      str += "\twhile(generatingOutput:\n";
+      str += "\t\ti := (i + 1) mod 256\n";
+      str += "\t\tj := (j + S[i]) mod 256\n";
+      str += "\t\tswap values of S[i] and S[j]\n";
+      str += "\t\tK := S[(S[i] + S[j]) mod 256]\n";
+      str += "\t\toutput K\n";
+      str += "\tendwhile\n\n";
 
       // The decrypt pseudocode
       str += "For decryption, the keystream generation is Xored with the cipherText to get plaintext\n";
