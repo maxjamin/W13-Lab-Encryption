@@ -49,50 +49,52 @@ public:
    {
       std::string str;
 
-      // TODO: please format your pseudocode
+      // Note: plainText, cipherText, and password are all 32-bit strings
+      // Another Note: decrypt is exactly the same as encrypt except it runs through P[] backwards
+
       // The encrypt pseudocode
       str =  "encrypt(plainText, password)\n";
-      str += "   initialize(password)\n";
-      str += "   L <- first half of plainText\n";
-      str += "   R <- second half of plainText\n";
+      str += "   DO initialize(password)\n";
+      str += "   SET L <- first half of plainText\n";
+      str += "   SET R <- second half of plainText\n";
       str += "   FOR i = 0 to 15\n";
-      str += "      L <- L XOR P[i]\n";
-      str += "      R <- f(L) XOR R\n";
-      str += "      swap(L, R)\n";
-      str += "   swap(L, R)\n";
-      str += "   R <- R XOR P[16]\n";
-      str += "   L <- L XOR P[17]\n";
-      str += "   cipherText <- L + R\n";
+      str += "      SET L <- L XOR P[i]\n";
+      str += "      SET R <- f(L) XOR R\n";
+      str += "      DO swap(L, R)\n";
+      str += "   DO swap(L, R)\n";
+      str += "   SET R <- R XOR P[16]\n";
+      str += "   SET L <- L XOR P[17]\n";
+      str += "   SET cipherText <- L + R\n";
       str += "   RETURN cipherText\n\n";
 
       // The decrypt pseudocode
       str += "decrypt(cipherText, password)\n";
-      str += "   initialize(password)\n";
-      str += "   L <- first half of cipherText\n";
-      str += "   R <- second half of cipherText\n";
+      str += "   DO initialize(password)\n";
+      str += "   SET L <- first half of cipherText\n";
+      str += "   SET R <- second half of cipherText\n";
       str += "   FOR i = 17 to 2\n";
-      str += "      L <- L XOR P[i]\n";
-      str += "      R <- f(L) XOR R\n";
-      str += "      swap(L, R)\n";
-      str += "   swap(L, R)\n";
-      str += "   R <- R XOR P[1]\n";
-      str += "   L <- L XOR P[0]\n";
-      str += "   plainText <- L + R\n";
+      str += "      SET L <- L XOR P[i]\n";
+      str += "      SET R <- f(L) XOR R\n";
+      str += "      DO swap(L, R)\n";
+      str += "   DO swap(L, R)\n";
+      str += "   SET R <- R XOR P[1]\n";
+      str += "   SET L <- L XOR P[0]\n";
+      str += "   SET plainText <- L + R\n";
       str += "   RETURN plainText\n\n";
 
       // The "f" function pseudocode
       str += "f(x)\n";
       str += "   Work-In-Progress\n\n";
 
-      // The initilize pseudocode
+      // The initialize pseudocode
       str += "initialize(password)\n";
       str += "   Work-In-Progress\n\n";
 
       // The swap pseudocode
       str += "swap(L, R)\n";
-      str += "   X <- L\n";
-      str += "   L <- R\n";
-      str += "   R <- X\n";
+      str += "   SET temp <- L\n";
+      str += "   SET L <- R\n";
+      str += "   SET R <- temp\n";
       str += "   RETURN\n\n";
       return str;
    }
@@ -120,6 +122,40 @@ public:
       // TODO - Add your code here
       return plainText;
    }
+
+private:
+
+   /**********************************************************
+    * INITIALIZE
+    * Takes the password and initializes P.
+    **********************************************************/
+   void initialize(string password)
+   {
+      return;
+   }
+
+   /**********************************************************
+    * F
+    * Does some weird shenanagens that I don't understand.
+    **********************************************************/
+   string f(string X)
+   {
+      return X;
+   }
+
+   /**********************************************************
+    * SWAP
+    * Swaps the values of the two variables
+    **********************************************************/
+   void swap(string & L, string & R)
+   {
+      string temp = L;
+      L = R;
+      R = temp;
+      return;
+   }
+
+   string P[18];
 };
 
 #endif // CIPHER03_H
