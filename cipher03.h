@@ -28,7 +28,7 @@ public:
    virtual std::string getPseudoAuth()  { return "Bretton Steiner"; }
    virtual std::string getCipherName()  { return "Blowfish"; }
    virtual std::string getEncryptAuth() { return "Tyler Starr"; }
-   virtual std::string getDecryptAuth() { return "decrypt author"; }
+   virtual std::string getDecryptAuth() { return "Bretton Steiner"; }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -159,8 +159,26 @@ public:
    virtual std::string decrypt(const std::string & cipherText,
                                const std::string & password)
    {
-      std::string plainText = cipherText;
-      // TODO - Add your code here
+      int size = cipherText.size();
+      if (initializationStarted == false)
+         initialize((uint32_t)password.c_str());
+
+      uint32_t L = ((uint32_t)cipherText.c_str());
+      uint32_t R = (L + sizeof(uint32_t) * (size / 2));
+
+      for (int i = 17; i > 2; i--)
+      {
+         L ^= (uint32_t)P[i];
+         R ^= f(L);
+         swap(L, R);
+      }
+
+      swap(L, R);
+      R ^= P[1];
+      L ^= P[0];
+
+      // https://www.cplusplus.com/articles/D9j2Nwbp/
+      std::string plainText = static_cast<std::ostringstream*>( &(std::ostringstream() << (L + R)) )->str();
       return plainText;
    }
 
