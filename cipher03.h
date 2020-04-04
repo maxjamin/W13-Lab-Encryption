@@ -94,6 +94,9 @@ public:
 
       // The initialize pseudocode
       str += "initialize(password)\n";
+      str += "   Initialize P and S using hexadecimal words of pi\n";
+      str += "   XOR each P with password, 32 bits at a time, repeating the use of password if needed\n";
+      str += "   Do a bunch more stuff that is too complicated to write out in pseudocode in this time\n";
       str += "   Work-In-Progress\n\n";
 
       // The swap pseudocode
@@ -157,6 +160,21 @@ private:
     **********************************************************/
    void initialize(uint32_t password)
    {
+      // Initialize P and S-Boxes with pi? I couldn't find anyway to do this online. So this will not work.
+
+      for (int i=0 ; i<18 ; ++i)
+         P[i] ^= password; //Password for this code will always be 32 bit and thus used every round
+      uint32_t L = 0, R = 0;
+      for (int i=0 ; i<18 ; i+=2) {
+         encrypt (L, R);
+         P[i] = L; P[i+1] = R;
+      }
+      for (int i=0 ; i<4 ; ++i)
+         for (int j=0 ; j<256; j+=2) {
+            encrypt (L, R);
+            S[i][j] = L; S[i][j+1] = R;
+         }
+
       return;
    }
 
