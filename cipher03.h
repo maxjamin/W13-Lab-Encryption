@@ -98,7 +98,7 @@ public:
       str += "initialize(password)\n";
       str += "   Initialize P and S using hexadecimal words of pi\n";
       str += "   XOR each P with password, 32 bits at a time, repeating the use of password if needed\n";
-      str += "   Do a bunch more stuff that is too complicated to write out in pseudocode in this time\n";
+      str += "   Do a bunch more stuff that is too complicated to write out in pseudocode with the time I have left\n";
       str += "   Work-In-Progress\n\n";
 
       // The swap pseudocode
@@ -321,12 +321,12 @@ private:
          P[i] ^= password; //Password for this code will always be 32 bit and thus used every round
       uint32_t L = 0, R = 0;
       for (int i=0 ; i<18 ; i+=2) {
-         encrypt (to_string(L) + to_string(R), to_string(password));
+         encrypt (std::to_string(L) + std::to_string(R), std::to_string(password));
          P[i] = L; P[i+1] = R;
       }
       for (int i=0 ; i<4 ; ++i)
          for (int j=0 ; j<256; j+=2) {
-            encrypt (to_string(L) + to_string(R), to_string(password));
+            encrypt (std::to_string(L) + std::to_string(R), std::to_string(password));
             S[i][j] = L; S[i][j+1] = R;
          }
 
