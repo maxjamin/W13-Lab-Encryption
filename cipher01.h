@@ -136,30 +136,25 @@ public:
    virtual std::string decrypt(const std::string & cipherText,
                                const std::string & password)
    {
-      std::string plainText;
+      std::string plainText; // empty string
       int initalVector[256];
 
       keyRandomizeAlgorithm(initalVector, password);
 
       int i = 0;
       int j = 0;
-      for(std::string::size_type h=0; h < cipherText.size(); h++)
+      for(int h = 0; h < cipherText.size(); h++)
       {
         int k = pseudoRandomGeneration(initalVector, j, i);
 
-        //convert plaintext to int
+        // convert plaintext to int
         int plain_as_int = (int)cipherText[h];
-        //std::cout << "plain_as_int " << plain_as_int << "\n";
 
-        //XOR plaintext and k from keystream
-        int output = k^plain_as_int;
+        // XOR plaintext and k from keystream
+        int output = k ^ plain_as_int;
 
-        /*std::cout << "encyrptText: " << cipherText[h] << " - k being " <<
-        k << " Converted to " << output <<"\n";*/
-
-        //add to cipherText
-        plainText.push_back((char)output);
-        //std::cout << "plaintext is " << plainText[h] << " - ";
+        // add to plainText
+        plainText += (char)output;
       }
 
       return plainText;
