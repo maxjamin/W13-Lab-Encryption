@@ -3,17 +3,19 @@
 *    Implement your cipher here. You can view 'example.h' to see the
 *    completed Caesar Cipher example.
 ********************************************************************/
-#ifndef CIPHER05_H
+#ifndef CIPHER05_H 
 #define CIPHER05_H
 
+#define BLOCKSIZE 4
+
 /********************************************************************
- * CLASS
+ * CLASS ChaCha20 ENCRYPTION
  *******************************************************************/
 class Cipher05 : public Cipher
 {
 public:
-   virtual std::string getPseudoAuth()  { return "pseudocode author"; }
-   virtual std::string getCipherName()  { return "cipher name"; }
+   virtual std::string getPseudoAuth()  { return "John Miller"; }
+   virtual std::string getCipherName()  { return "ChaCha20"; }
    virtual std::string getEncryptAuth() { return "encrypt author"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
@@ -23,8 +25,12 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("citation");
+      std::string s;
+      s =  "Internet Research Task Force ChaCha20 and Poly1305 for IETF Protocols\n";
+      s += "https://csrc.nist.gov/csrc/media/projects/cryptographic-standards-and\n";      s += "-guidelines/documents/aes-development/rijndael-ammended.pdf";
+      return s;
    }
+   
    
    /**********************************************************
     * GET PSEUDOCODE
@@ -35,11 +41,23 @@ public:
       std::string str;
 
       // TODO: please format your pseudocode
-      // The encrypt pseudocode
-      str =  "insert the encryption pseudocode\n";
+      // The encrypt pseudocode, referenced from the Protocal paper
+      str  = "chacha20_encrypt(key, counter, nonce, plaintext)\n";
+      str += "  for counter=1 upto ceil(len(plaintext) / 64)\n";
+      str += "    key_stream = chacha20_block(key, counter, nonce)\n";
+      str += "    block = plaintext[((counter-1)*64)..(counter*64-1)]\n";
+      str += "    encrypted_message +=  block ^ key_stream\n";
+      str += "  end loop\n";
+      str += "  if ((len(plaintext) % 64) != 0)\n";
+      str += "    key_stream = chacha20_block(key, counter, nonce)\n";
+      str += "    block = plaintext[(counter*64)..len(plaintext)-1]\n";
+      str += "    encrypted_message += (block^key_stream)[0..len(plaintext)%64]\n";
+      str += "  end if\n";
+      str += "  return encrypted_mesage\n";
+      str += "  end\n";
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      str += "Due to how ChaCha is built, the encrypt function can also decrypt\n";
 
       return str;
    }
@@ -53,8 +71,19 @@ public:
    {
       std::string cipherText = plainText;
       // TODO - Add your code here
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       return cipherText;
    }
+
 
    /**********************************************************
     * DECRYPT
@@ -65,6 +94,20 @@ public:
    {
       std::string plainText = cipherText;
       // TODO - Add your code here
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       return plainText;
    }
 };
