@@ -109,7 +109,7 @@ public:
       str += "initialize(password)\n";
       str += "   Initialize P and S using hexadecimal words of pi\n";
       str += "   XOR each P with password, 32 bits at a time, repeating the use of password if needed\n";
-      str += "   Do a bunch more stuff that is too complicated to write out in pseudocode in this time\n";
+      str += "   Do a bunch more stuff that is too complicated to write out in pseudocode with the time I have left\n";
       str += "   Work-In-Progress\n\n";
 
       // The swap pseudocode
