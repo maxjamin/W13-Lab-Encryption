@@ -34,12 +34,55 @@ public:
    {
       std::string str;
 
-      // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str =  "insert the encryption pseudocode\n";
+      str =  "encrypt(plainText, password)\n";
+      str += "   long v[2] = plainText\n";
+      str += "   long k[2] = password\n";
+      str += "   y = v[0]\n";
+      str += "   z = v[1]\n";
+      str += "   sum = 0\n";
+      str += "   delta = 0x9e3779b9\n\n";
+
+      str += "   FOR n from 32 to 0:\n";
+      str += "      sum = sum + delta\n";
+      str += "      y = y +\n";
+      str += "         ((z << 4) + k[0]) XOR\n";
+      str += "         (z + sum) XOR\n";
+      str += "         ((z >> 5) + k[1])\n";
+      str += "      z = z +\n";
+      str += "         ((y << 4) + k[2]) XOR\n";
+      str += "         (y + sum) XOR\n";
+      str += "         ((y >> 5) + k[3])\n";
+      str += "   END FOR\n";
+      str += "   v[0] = y\n";
+      str += "   v[1] = z\n";
+      str += "   cipherText = v\n";
+      str += "   RETURN cipherText\n\n";
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      str +=  "decrypt(cipherText, password)\n";
+      str += "   long v[2] = cipherText\n";
+      str += "   long k[2] = password\n";
+      str += "   y = v[0]\n";
+      str += "   z = v[1]\n";
+      str += "   delta = 0x9e3779b9\n";
+      str += "   sum = delta << 5\n\n";
+
+      str += "   FOR n from 32 to 0:\n";
+      str += "      z = z -\n";
+      str += "         ((y << 4) + k[2]) XOR\n";
+      str += "         (y + sum) XOR\n";
+      str += "         ((y >> 5) + k[3])\n";
+      str += "      y = y -\n";
+      str += "         ((z << 4) + k[0]) XOR\n";
+      str += "         (z + sum) XOR\n";
+      str += "         ((z >> 5) + k[1])\n";
+      str += "      sum = sum - delta\n";
+      str += "   END FOR\n";
+      str += "   v[0] = y\n";
+      str += "   v[1] = z\n";
+      str += "   plainText = v\n";
+      str += "   RETURN plainText\n";
 
       return str;
    }
@@ -62,7 +105,7 @@ public:
       long* k = (long*)(password.c_str());
 
       // Each block is 8 bytes in size.
-      int numIterations = cipherText.size() / 8 + 1;
+      int numIterations = cipherText.size() / 8;
       while (numIterations --> 0)
          encrypt_8(v++, k);
 
@@ -105,7 +148,7 @@ public:
       long* k = (long*)(password.c_str());
 
       // Apply the decryption to the same 8-byte size blocks
-      int numIterations = plainText.size() / 8 + 1;
+      int numIterations = plainText.size() / 8;
       while (numIterations --> 0)
          decrypt_8(v++, k);
 
