@@ -6,6 +6,8 @@
 #ifndef CIPHER03_H
 #define CIPHER03_H
 
+#include <sstream> // for converting string to number + vice versa
+
 /********************************************************************
  * CLASS
  *******************************************************************/
@@ -110,25 +112,32 @@ public:
 
    /**********************************************************
     * ENCRYPT
-    * TODO: ADD description
+    * Encrypt using XOR and some global arrays (S and P)
+    * derived from password
+    * TODO: implement the initialize() function
     **********************************************************/
    virtual std::string encrypt(const std::string & plainText,
                                const std::string & password)
    {
-      std::string cipherText = plainText;
-      int size = cipherText.size();
+      int size = plainText.size();
+      initialize((uint32_t)password.c_str());
 
-      // std::string L = cipherText.substr(0, size / 2);
-      // std::string R = cipherText.substr(size / 2);
-
-      short* L = (short*)cipherText.c_str();
-      short* R = (short*)cipherText.c_str() + sizeof(short) * (size / 2);
+      uint32_t L = ((uint32_t)plainText.c_str());
+      uint32_t R = (L + sizeof(uint32_t) * (size / 2));
 
       for (int i = 0; i < 15; i++)
       {
-         *L ^= (short)password[i];
-         *R ^= (short)password[i];
+         L ^= (uint32_t)P[i];
+         R ^= f(L);
+         swap(L, R);
       }
+
+      swap(L, R);
+      R ^= password[16];
+      L ^= password[17];
+
+      // https://www.cplusplus.com/articles/D9j2Nwbp/
+      std::string cipherText = static_cast<std::ostringstream*>( &(std::ostringstream() << (L + R)) )->str();
 
       return cipherText;
    }
