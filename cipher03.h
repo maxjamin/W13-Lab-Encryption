@@ -84,7 +84,11 @@ public:
 
       // The "f" function pseudocode
       str += "f(x)\n";
-      str += "   Work-In-Progress\n\n";
+      str += "   SET h <- S[0][x >> 24]\n";
+      str += "   SET h <- h + S[1][x >> 16 AND 0xff]\n";
+      str += "   SET h <- h XOR S[2][x >> 8 AND 0xff]\n";
+      str += "   SET h <- h + S[3][x AND 0xff]\n";
+      str += "   RETURN h\n\n";
 
       // The initialize pseudocode
       str += "initialize(password)\n";
@@ -129,33 +133,36 @@ private:
     * INITIALIZE
     * Takes the password and initializes P.
     **********************************************************/
-   void initialize(string password)
+   void initialize(uint32_t password)
    {
       return;
    }
 
    /**********************************************************
     * F
-    * Does some weird shenanagens that I don't understand.
+    * Encrypts using the 4 S-boxes
     **********************************************************/
-   string f(string X)
+   uint32_t f(uint32_t x)
    {
-      return X;
+      uint32_t h = S[0][x >> 24] + S[1][x >> 16 & 0xff];
+      h = (h ^ S[2][x >> 8 & 0xff]) + S[3][x & 0xff];
+      return h;
    }
 
    /**********************************************************
     * SWAP
     * Swaps the values of the two variables
     **********************************************************/
-   void swap(string & L, string & R)
+   void swap(uint32_t & L, uint32_t & R)
    {
-      string temp = L;
+      uint32_t temp = L;
       L = R;
       R = temp;
       return;
    }
 
-   string P[18];
+   uint32_t P[18];
+   uint32_t S[4][256];
 };
 
 #endif // CIPHER03_H
