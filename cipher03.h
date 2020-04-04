@@ -14,7 +14,7 @@ class Cipher03 : public Cipher
 public:
    virtual std::string getPseudoAuth()  { return "Bretton Steiner"; }
    virtual std::string getCipherName()  { return "Blowfish"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
+   virtual std::string getEncryptAuth() { return "Tyler Starr"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
    /***********************************************************
@@ -107,7 +107,20 @@ public:
                                const std::string & password)
    {
       std::string cipherText = plainText;
-      // TODO - Add your code here
+      int size = cipherText.size();
+
+      // std::string L = cipherText.substr(0, size / 2);
+      // std::string R = cipherText.substr(size / 2);
+
+      short* L = (short*)cipherText.c_str();
+      short* R = (short*)cipherText.c_str() + sizeof(short) * (size / 2);
+
+      for (int i = 0; i < 15; i++)
+      {
+         *L ^= (short)password[i];
+         *R ^= (short)password[i];
+      }
+
       return cipherText;
    }
 
@@ -129,7 +142,7 @@ private:
     * INITIALIZE
     * Takes the password and initializes P.
     **********************************************************/
-   void initialize(string password)
+   void initialize(std::string password)
    {
       return;
    }
@@ -138,7 +151,7 @@ private:
     * F
     * Does some weird shenanagens that I don't understand.
     **********************************************************/
-   string f(string X)
+   std::string f(std::string X)
    {
       return X;
    }
@@ -147,15 +160,15 @@ private:
     * SWAP
     * Swaps the values of the two variables
     **********************************************************/
-   void swap(string & L, string & R)
+   void swap(std::string & L, std::string & R)
    {
-      string temp = L;
+      std::string temp = L;
       L = R;
       R = temp;
       return;
    }
 
-   string P[18];
+   std::string P[18];
 };
 
 #endif // CIPHER03_H
